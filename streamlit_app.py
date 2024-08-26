@@ -179,6 +179,16 @@ st.set_page_config(layout="wide")
 st.sidebar.header("Heating Options Before Switching to Heat Pump")
 Before_Heating = st.sidebar.selectbox("Select the current heating type:", ("gas", "E7"))
 
+energyuse = st.sidebar.selectbox("How high is the energy use?",("Low","Typical","High"))
+if energyuse=="Low":
+    HomeUse_ele = LowHomeUse_ele
+    HomeUse_gas = LowHomeUse_gas
+if energyuse=="High":
+    HomeUse_ele = HighHomeUse_ele
+    HomeUse_gas = HighHomeUse_gas
+if energyuse=="Typical":
+    HomeUse_ele = TypicalHomeUse_ele
+    HomeUse_gas = TypicalHomeUse_gas
 # Sidebar: Off-peak percentage input
 if Before_Heating == "E7":
     OffPeak_percentage = st.sidebar.number_input("Percentage of heating energy used during off-peak:", value=90) / 100
@@ -189,15 +199,15 @@ else:
 KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
 
 # Calculate Scenario 1 and Baseline data
-scenario1 = scenario1HPswitch(LowHomeUse_ele,
-                              LowHomeUse_gas,
+scenario1 = scenario1HPswitch(HomeUse_ele,
+                              HomeUse_gas,
                               beforetype=Before_Heating,
                               gasStandingCharge=KeepStandingCharge,
                               perc_offpeak=OffPeak_percentage,
                               SPF=SPF)
 
-baseline = BaselineHPswitch(LowHomeUse_ele,
-                            LowHomeUse_gas,
+baseline = BaselineHPswitch(HomeUse_ele,
+                            HomeUse_gas,
                             SPF=SPF,
                             beforetype=Before_Heating,
                             gasStandingCharge=KeepStandingCharge,
