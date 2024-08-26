@@ -205,12 +205,16 @@ baseline = BaselineHPswitch(LowHomeUse_ele,
 # Combine data into a DataFrame for plotting
 data = pd.DataFrame({
     'SPF': SPF,
-    'Scenario 1 - Green Levies Removed': scenario1,
-    'Baseline': baseline
+    'Green Levies Removed': scenario1,
+    'Now': baseline
 })
 
 # Main content
 st.title("Heat Pump Savings Comparison")
+if Before_Heating == "E7":
+    st.subtitle("This graph compares the yearly savnings from switching to a heat pump from *storage heaters* with and without the levies removed")
+if Before_Heating == "gas":
+    st.subtitle("This graph compares the yearly savnings from switching to a heat pump from a *gas boiler* with and without the levies removed")
 st.write("This chart shows the potential savings from switching to a heat pump in the UK. "
          "It compares the baseline scenario with a scenario where green levies are removed from energy prices.")
 
