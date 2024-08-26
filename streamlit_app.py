@@ -217,7 +217,9 @@ if Before_Heating == "gas":
     st.write("This chart shows the potential yearly savings from switching to a heat pump from a **gas boiler** with and without the levies removed")
 
 # Area chart showing both scenarios
-st.line_chart(data.set_index('SPF'))
+st.line_chart(data.set_index('SPF'),
+              x_label = "SPF",
+              y_label = "Yearly Savings")
 
 # Additional explanations
 st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
