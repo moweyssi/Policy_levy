@@ -223,7 +223,7 @@ baseline_zero = np.round(np.interp(0, baseline, SPF),2)
 
 # Prepare data for zero crossing points
 zero_points = pd.DataFrame({
-    'SPF': [scenario1_zero, baseline_zero],
+    'Break-Even SPF': [scenario1_zero, baseline_zero],
     'Savings': [0, 0],
     'Scenario': ['Green Levies Removed', 'Now']
 })
@@ -240,8 +240,7 @@ chart = alt.Chart(data.melt('SPF', var_name='Scenario', value_name='Savings')).m
 
 # Add points where lines cross the y-axis at 0
 points = alt.Chart(zero_points).mark_point(size=100, filled=True).encode(
-    tooltip="Break-Even SPF",
-    x='SPF',
+    x='Break-Even SPF',
     y='Savings',
     color='Scenario:N'
 )
