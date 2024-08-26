@@ -218,8 +218,8 @@ if Before_Heating == "gas":
     st.write("This chart shows the potential yearly savings from switching to a heat pump from a **gas boiler** with and without the levies removed.")
 
 # Find points where the lines meet the Y-axis at 0
-scenario1_zero = np.interp(0, scenario1, SPF)
-baseline_zero = np.interp(0, baseline, SPF)
+scenario1_zero = np.round(np.interp(0, scenario1, SPF),2)
+baseline_zero = np.round(np.interp(0, baseline, SPF),2)
 
 # Prepare data for zero crossing points
 zero_points = pd.DataFrame({
