@@ -1,5 +1,7 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
+
 
 #https://www.ofgem.gov.uk/energy-price-cap
 ele_pricecap_day_GBP = 0.6099
@@ -168,12 +170,24 @@ def scenario1HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCh
             return storageheater - heatpump
     
 
-SPF = np.linspace(0.1,5,100)
-Before_Heating = st.sidebar.selectbox("What heating type does the home have before?",("gas","E7"))
-if Before_Heating=="E7":
-    OffPeak_percentage = st.sidebar.number_input("What percentage of heating energy used is off-peak?",value=90)/100
-else: OffPeak_percentage = 0.9
-KeepStandingCharge = st.sidebar.checkbox("Do you keep the gas standing charge? (for cooking)",value=False)
+
+# Generate the Seasonal Performance Factor (SPF) data
+SPF = np.linspace(0.1, 5, 100)
+
+# Sidebar: Heating type selection
+st.sidebar.header("Heating Options Before Switching to Heat Pump")
+Before_Heating = st.sidebar.selectbox("Select the current heating type:", ("Gas", "E7"))
+
+# Sidebar: Off-peak percentage input
+if Before_Heating == "E7":
+    OffPeak_percentage = st.sidebar.number_input("Percentage of heating energy used during off-peak:", value=90) / 100
+else:
+    OffPeak_percentage = 0.9
+
+# Sidebar: Gas standing charge option
+KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
+
+# Calculate Scenario 1 and Baseline data
 scenario1 = scenario1HPswitch(LowHomeUse_ele,
                               LowHomeUse_gas,
                               beforetype=Before_Heating,
@@ -187,4 +201,23 @@ baseline = BaselineHPswitch(LowHomeUse_ele,
                             beforetype=Before_Heating,
                             gasStandingCharge=KeepStandingCharge,
                             perc_offpeak=OffPeak_percentage)
-st.area_chart()
+
+# Combine data into a DataFrame for plotting
+data = pd.DataFrame({
+    'SPF': SPF,
+    'Scenario 1 - Green Levies Removed': scenario1,
+    'Baseline': baseline
+})
+
+# Main content
+st.title("Heat Pump Savings Comparison")
+st.write("This chart shows the potential savings from switching to a heat pump in the UK. "
+         "It compares the baseline scenario with a scenario where green levies are removed from energy prices.")
+
+# Area chart showing both scenarios
+st.area_chart(data.set_index('SPF'))
+
+# Additional explanations
+st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
+         "A higher SPF indicates a more efficient heat pump. The Y-axis shows the savings in energy costs "
+         "compared to the selected heating type before switching to a heat pump.")
