@@ -240,7 +240,7 @@ chart = alt.Chart(data.melt('SPF', var_name='Scenario', value_name='Savings')).m
 
 # Add points where lines cross the y-axis at 0
 points = alt.Chart(zero_points).mark_point(size=100, filled=True).encode(
-    text="Break-Even SPF",
+    tooltip="Break-Even SPF",
     x='SPF',
     y='Savings',
     color='Scenario:N'
