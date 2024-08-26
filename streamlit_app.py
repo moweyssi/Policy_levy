@@ -178,7 +178,7 @@ scenario1 = scenario1HPswitch(LowHomeUse_ele,
                               LowHomeUse_gas,
                               beforetype=Before_Heating,
                               gasStandingCharge=KeepStandingCharge,
-                              perc_offpeak=OffPeak_percentage
+                              perc_offpeak=OffPeak_percentage,
                               SPF=SPF)
 
 baseline = BaselineHPswitch(LowHomeUse_ele,
