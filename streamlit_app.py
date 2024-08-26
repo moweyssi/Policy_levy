@@ -215,7 +215,7 @@ st.write("This chart shows the potential savings from switching to a heat pump i
          "It compares the baseline scenario with a scenario where green levies are removed from energy prices.")
 
 # Area chart showing both scenarios
-st.area_chart(data.set_index('SPF'))
+st.line_chart(data.set_index('SPF'))
 
 # Additional explanations
 st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
