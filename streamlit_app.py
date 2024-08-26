@@ -173,7 +173,7 @@ def scenario1HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCh
 
 
 # Generate the Seasonal Performance Factor (SPF) data
-SPF = np.linspace(1.5, 5, 100)
+SPF = np.linspace(1, 4, 100)
 
 # Sidebar: Heating type selection
 st.sidebar.header("Heating Options Before Switching to Heat Pump")
@@ -249,7 +249,7 @@ points = alt.Chart(zero_points).mark_point(size=100, filled=True).encode(
 final_chart = chart + points
 
 # Display the chart in Streamlit
-st.altair_chart(final_chart, use_container_width=True)
+st.altair_chart(final_chart)
 
 # Additional explanations
 st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
