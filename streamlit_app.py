@@ -186,5 +186,5 @@ baseline = BaselineHPswitch(LowHomeUse_ele,
                             SPF=SPF,
                             beforetype=Before_Heating,
                             gasStandingCharge=KeepStandingCharge,
-                            perc_offpeak=OffPeak_percentage):
+                            perc_offpeak=OffPeak_percentage)
 st.area_chart()
