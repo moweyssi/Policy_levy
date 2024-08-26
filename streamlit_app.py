@@ -176,13 +176,13 @@ SPF = np.linspace(0.1, 5, 100)
 
 # Sidebar: Heating type selection
 st.sidebar.header("Heating Options Before Switching to Heat Pump")
-Before_Heating = st.sidebar.selectbox("Select the current heating type:", ("Gas", "E7"))
+Before_Heating = st.sidebar.selectbox("Select the current heating type:", ("gas", "E7"))
 
 # Sidebar: Off-peak percentage input
-#if Before_Heating == "E7":
-OffPeak_percentage = st.sidebar.number_input("Percentage of heating energy used during off-peak:", value=90) / 100
-#else:
-#    OffPeak_percentage = 0.9
+if Before_Heating == "E7":
+    OffPeak_percentage = st.sidebar.number_input("Percentage of heating energy used during off-peak:", value=90) / 100
+else:
+    OffPeak_percentage = 0.9
 
 # Sidebar: Gas standing charge option
 KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
