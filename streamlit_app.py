@@ -212,11 +212,9 @@ data = pd.DataFrame({
 # Main content
 st.title("Heat Pump Savings Comparison")
 if Before_Heating == "E7":
-    st.subheader("This graph compares the yearly savnings from switching to a heat pump from *storage heaters* with and without the levies removed")
+    st.write("This chart shows the potential yearly savings from switching to a heat pump from **storage heaters** with and without the levies removed")
 if Before_Heating == "gas":
-    st.subheader("This graph compares the yearly savnings from switching to a heat pump from a *gas boiler* with and without the levies removed")
-st.write("This chart shows the potential savings from switching to a heat pump in the UK. "
-         "It compares the baseline scenario with a scenario where green levies are removed from energy prices.")
+    st.write("This chart shows the potential yearly savings from switching to a heat pump from a **gas boiler** with and without the levies removed")
 
 # Area chart showing both scenarios
 st.line_chart(data.set_index('SPF'))
