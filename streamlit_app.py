@@ -241,7 +241,7 @@ zero_points = pd.DataFrame({
 # Create an Altair line chart
 chart = alt.Chart(data.melt('SPF', var_name='Scenario', value_name='Savings')).mark_line().encode(
     x=alt.X('SPF', title='Seasonal Performance Factor (SPF)'),
-    y=alt.Y('Savings', title='Yearly Savings (£)', scale=alt.Scale(domain=[-750, 750])),
+    y=alt.Y('Savings', title='Yearly Savings (£)'),
     color='Scenario:N'
 ).properties(
     width='container',
