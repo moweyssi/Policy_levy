@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import altair as alt
 
 
 #https://www.ofgem.gov.uk/energy-price-cap
@@ -212,14 +213,43 @@ data = pd.DataFrame({
 # Main content
 st.title("Heat Pump Savings Comparison")
 if Before_Heating == "E7":
-    st.write("This chart shows the potential yearly savings from switching to a heat pump from **storage heaters** with and without the levies removed")
+    st.write("This chart shows the potential yearly savings from switching to a heat pump from **storage heaters** with and without the levies removed.")
 if Before_Heating == "gas":
-    st.write("This chart shows the potential yearly savings from switching to a heat pump from a **gas boiler** with and without the levies removed")
+    st.write("This chart shows the potential yearly savings from switching to a heat pump from a **gas boiler** with and without the levies removed.")
 
-# Area chart showing both scenarios
-st.line_chart(data.set_index('SPF'),
-              x_label = "SPF",
-              y_label = "Yearly Savings")
+# Find points where the lines meet the Y-axis at 0
+scenario1_zero = np.interp(0, scenario1, SPF)
+baseline_zero = np.interp(0, baseline, SPF)
+
+# Prepare data for zero crossing points
+zero_points = pd.DataFrame({
+    'SPF': [scenario1_zero, baseline_zero],
+    'Savings': [0, 0],
+    'Scenario': ['Green Levies Removed', 'Now']
+})
+
+# Create an Altair line chart
+chart = alt.Chart(data.melt('SPF', var_name='Scenario', value_name='Savings')).mark_line().encode(
+    x=alt.X('SPF', title='Seasonal Performance Factor (SPF)'),
+    y=alt.Y('Savings', title='Yearly Savings (£)'),
+    color='Scenario:N'
+).properties(
+    width='container',
+    height=500
+)
+
+# Add points where lines cross the y-axis at 0
+points = alt.Chart(zero_points).mark_point(size=100, filled=True).encode(
+    x='SPF',
+    y='Savings',
+    color='Scenario:N'
+)
+
+# Combine the line chart and points
+final_chart = chart + points
+
+# Display the chart in Streamlit
+st.altair_chart(final_chart, use_container_width=True)
 
 # Additional explanations
 st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
