@@ -174,7 +174,7 @@ def scenario1HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCh
 
 # Generate the Seasonal Performance Factor (SPF) data
 SPF = np.linspace(1, 5, 100)
-
+st.set_page_config(layout="wide")
 # Sidebar: Heating type selection
 st.sidebar.header("Heating Options Before Switching to Heat Pump")
 Before_Heating = st.sidebar.selectbox("Select the current heating type:", ("gas", "E7"))
