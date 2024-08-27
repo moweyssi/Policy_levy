@@ -399,6 +399,7 @@ if Scenario == "3. Introduce a clean heat discount":
     'scenario': scenario3,
     'Now': baseline
 })
+    st.text(data)
 
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario3saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
     
@@ -408,11 +409,12 @@ if Scenario == "3a. Introduce a clean heat discount for heat pumps":
     'scenario': scenario3a,
     'Now': baseline
 })
+    st.text(data)
+
 
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario3asaving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,assumed_spf=SPFCutoff))))
 else:
     st.spinner()
-st.text(data)
 # Combine data into a DataFrame for plotting
 
 # Main content
