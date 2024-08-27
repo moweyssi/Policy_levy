@@ -396,7 +396,7 @@ label = alt.Chart(zero_points).mark_text(
 ).encode(
     x=alt.datum((selected_scenario_zero + baseline_zero) / 2),  # Midpoint x position
     y=alt.datum(0),  # y position (since both points have y=0)
-    text=alt.value("Difference"),  # Text label content
+    text=alt.value("From " + spf_to_percentage(baseline_zero) + " of homes saving money\nTo "+ spf_to_percentage(selected_scenario_zero) + " of homes saving money\nby switching to a heat pump" ),  # Text label content
 )
 
 # Combine the line chart, points, line segment, and label
