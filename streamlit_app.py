@@ -392,7 +392,7 @@ final_chart = chart + points + line_segment
 
 # Display the chart in Streamlit
 st.altair_chart(final_chart, use_container_width=True)
-st.subsubheader("From " + spf_to_percentage(baseline_zero) + " of homes saving money\nTo "+ spf_to_percentage(selected_scenario_zero) + " of homes saving money\nby switching to a heat pump")
+st.subheader("From " + spf_to_percentage(baseline_zero) + " of homes saving money\nTo "+ spf_to_percentage(selected_scenario_zero) + " of homes saving money\nby switching to a heat pump")
 # Additional explanations
 st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
          "A higher SPF indicates a more efficient heat pump. The Y-axis shows the savings in energy costs "
