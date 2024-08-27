@@ -299,7 +299,7 @@ scenario3 = scenario3HPswitch(HomeUse_ele,
                               beforetype=Before_Heating,
                               gasStandingCharge=KeepStandingCharge,
                               perc_offpeak=OffPeak_percentage,
-                              SPF=SPF
+                              SPF=SPF,
                               electricity_discount_kWh=CleanHeatDiscount)
 
 baseline = BaselineHPswitch(HomeUse_ele,
