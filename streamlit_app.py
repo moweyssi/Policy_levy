@@ -245,6 +245,21 @@ def scenario3HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCh
         else:
             heatpump = getCleanHeatBill(HomeUse_ele,HomeUse_gas,type="heatpump",SPF=SPF,electricity_discount_kWh=electricity_discount_kWh)
             return storageheater - heatpump
+        
+def spf_to_percentage(spf_input):
+    percentage =[0.969491525,0.959322034,0.928813559,0.898305085,0.837288136,0.766101695,0.691525424,0.589830508,0.491525424,0.389830508,0.308474576,0.233898305,0.166101695,0.13559322,0.091525424,0.06440678,0.033898305,0.030508475,0.020338983,0.010169492,0.003389831,0.003389831,0.003389831]
+    SPF = [2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2]
+    # Find the nearest SPF
+    nearest_spf = min(SPF, key=lambda x: abs(x - spf_input))
+    
+    # Find the index of the nearest SPF
+    index = SPF.index(nearest_spf)
+    
+    # Get the corresponding percentage and format it
+    percent_value = percentage[index] * 100  # Convert to percentage
+    formatted_percentage = f"{percent_value:.1f}%"
+    
+    return formatted_percentage
 
 # Generate the Seasonal Performance Factor (SPF) data
 SPF = np.linspace(1, 4, 100)
@@ -338,6 +353,7 @@ baseline_zero = np.round(np.interp(0, baseline, SPF),2)
 # Prepare data for zero crossing points
 zero_points = pd.DataFrame({
     'Break-Even SPF': [selected_scenario_zero, baseline_zero],
+    'UK homes saving money' : [spf_to_percentage(selected_scenario_zero),spf_to_percentage(baseline_zero)],
     'Savings': [0, 0],
     'Scenario': ['Green Levies Removed', 'Now']
 })
@@ -359,7 +375,8 @@ points = alt.Chart(zero_points).mark_point(size=100, filled=True).encode(
     color='Scenario:N',
     tooltip=[
         alt.Tooltip('Scenario', title='Scenario'),
-        alt.Tooltip('Break-Even SPF', title='Break-Even SPF')
+        alt.Tooltip('Break-Even SPF', title='Break-Even SPF'),
+        alt.Tooltip('UK homes saving money', title= 'UK homes saving money')
     ]
 )
 
