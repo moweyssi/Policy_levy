@@ -331,8 +331,12 @@ if Scenario == "1. Move all levies completely off bills and onto general taxatio
     st.sidebar.text("Yearly avings just from scenario is £" + str(round(scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage))))
 if Scenario == "2. Remove VAT from electricity bills only and don't touch levy costs":
     selected_scenario = scenario2
+    st.sidebar.text("Yearly avings just from scenario is £" + str(round(scenario2saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage))))
+
 if Scenario == "3. Introduce a clean heat discount":
     selected_scenario = scenario3
+    st.sidebar.text("Yearly avings just from scenario is £" + str(round(scenario3saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage))))
+
 
 # Combine data into a DataFrame for plotting
 data = pd.DataFrame({
