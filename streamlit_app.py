@@ -299,7 +299,7 @@ def spf_to_percentage(spf_input):
 
 # Generate the Seasonal Performance Factor (SPF) data
 SPF = np.linspace(1, 4, 100)
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 # Sidebar: Heating type selection
 st.sidebar.header("Heating Options Before Switching to Heat Pump")
 Scenario = st.sidebar.selectbox("Which scenario?:", ("1. Move all levies completely off bills and onto general taxation",
