@@ -393,7 +393,7 @@ final_chart = chart + points + line_segment
 
 # Display the chart in Streamlit
 st.altair_chart(final_chart, use_container_width=True)
-st.subheader("From **" + spf_to_percentage(baseline_zero) + "** to **"+ spf_to_percentage(selected_scenario_zero) + "** of UK homes saving money by switching to a heat pump")
+st.subheader("From **" + spf_to_percentage(baseline_zero) + "** to **"+ spf_to_percentage(selected_scenario_zero) + "** of homes saving money by switching to a heat pump")
 st.write("Based on EoH data")
 # Additional explanations
 st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
