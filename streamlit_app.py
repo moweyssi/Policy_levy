@@ -386,24 +386,13 @@ line_segment = alt.Chart(zero_points).mark_line(color='red').encode(
     y='Savings'
 )
 
-# Add label for the line segment
-label = alt.Chart(zero_points).mark_text(
-    align='left',
-    baseline='middle',
-    dx=5,  # Adjust the position of the label along the x-axis
-    dy=-5,  # Adjust the position of the label along the y-axis
-    color='red'
-).encode(
-    x=alt.datum((selected_scenario_zero + baseline_zero) / 2),  # Midpoint x position
-    y=alt.datum(0),  # y position (since both points have y=0)
-    text=alt.value("From " + spf_to_percentage(baseline_zero) + " of homes saving money\nTo "+ spf_to_percentage(selected_scenario_zero) + " of homes saving money\nby switching to a heat pump" ),  # Text label content
-)
 
 # Combine the line chart, points, line segment, and label
-final_chart = chart + points + line_segment + label
+final_chart = chart + points + line_segment 
 
 # Display the chart in Streamlit
 st.altair_chart(final_chart, use_container_width=True)
+st.subsubheader("From " + spf_to_percentage(baseline_zero) + " of homes saving money\nTo "+ spf_to_percentage(selected_scenario_zero) + " of homes saving money\nby switching to a heat pump")
 # Additional explanations
 st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
          "A higher SPF indicates a more efficient heat pump. The Y-axis shows the savings in energy costs "
