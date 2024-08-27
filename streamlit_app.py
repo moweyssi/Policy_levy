@@ -332,7 +332,7 @@ else:
 if Scenario == "3a. Introduce a clean heat discount for heat pumps":
     SPFCutoff = st.sidebar.number_input("What is the assumed SPF of the heat pump?", value=2.8)
 else:
-    SPFCutoff = 1
+    SPFCutoff = 100
 # Sidebar: Gas standing charge option
 KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
 
