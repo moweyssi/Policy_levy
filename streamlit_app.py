@@ -337,8 +337,6 @@ if Scenario == "3. Introduce a clean heat discount":
     selected_scenario = scenario3
     st.sidebar.text("Yearly avings just from scenario is £" + str(round(scenario3saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage))))
 
-st.sidebar.text("*Assuming no change to gas standing charge")
-
 # Combine data into a DataFrame for plotting
 data = pd.DataFrame({
     'SPF': SPF,
