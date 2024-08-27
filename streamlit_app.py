@@ -369,8 +369,21 @@ line_segment = alt.Chart(zero_points).mark_line(color='red').encode(
     y='Savings'
 )
 
-# Combine the line chart, points, and line segment
-final_chart = chart + points + line_segment
+# Add label for the line segment
+label = alt.Chart(zero_points).mark_text(
+    align='left',
+    baseline='middle',
+    dx=5,  # Adjust the position of the label along the x-axis
+    dy=-5,  # Adjust the position of the label along the y-axis
+    color='red'
+).encode(
+    x=alt.datum((selected_scenario_zero + baseline_zero) / 2),  # Midpoint x position
+    y=alt.datum(0),  # y position (since both points have y=0)
+    text=alt.value("Difference"),  # Text label content
+)
+
+# Combine the line chart, points, line segment, and label
+final_chart = chart + points + line_segment + label
 
 # Display the chart in Streamlit
 st.altair_chart(final_chart, use_container_width=True)
