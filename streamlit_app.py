@@ -359,8 +359,7 @@ points = alt.Chart(zero_points).mark_point(size=100, filled=True).encode(
     color='Scenario:N',
     tooltip=[
         alt.Tooltip('Scenario', title='Scenario'),
-        alt.Tooltip('Break-Even SPF', title='Break-Even SPF'),
-        alt.Tooltip('Savings', title='Savings (£)')
+        alt.Tooltip('Break-Even SPF', title='Break-Even SPF')
     ]
 )
 
