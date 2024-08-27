@@ -310,12 +310,17 @@ baseline = BaselineHPswitch(HomeUse_ele,
                             perc_offpeak=OffPeak_percentage)
 
 
-
+if Scenario == "1. Move all levies completely off bills and onto general taxation":
+    selected_scenario = scenario1
+if Scenario == "2. Remove VAT from electricity bills only and don't touch levy costs":
+    selected_scenario = scenario2
+if Scenario == "3. Introduce a clean heat discount":
+    selected_scenario = scenario3
 
 # Combine data into a DataFrame for plotting
 data = pd.DataFrame({
     'SPF': SPF,
-    'Green Levies Removed': scenario1,
+    'Green Levies Removed': selected_scenario,
     'Now': baseline
 })
 
@@ -327,12 +332,12 @@ if Before_Heating == "gas":
     st.write("This chart shows the potential yearly savings from switching to a heat pump from a **gas boiler** with and without the levies removed.")
 
 # Find points where the lines meet the Y-axis at 0
-scenario1_zero = np.round(np.interp(0, scenario1, SPF),2)
+selected_scenario_zero = np.round(np.interp(0, selected_scenario, SPF),2)
 baseline_zero = np.round(np.interp(0, baseline, SPF),2)
 
 # Prepare data for zero crossing points
 zero_points = pd.DataFrame({
-    'Break-Even SPF': [scenario1_zero, baseline_zero],
+    'Break-Even SPF': [selected_scenario_zero, baseline_zero],
     'Savings': [0, 0],
     'Scenario': ['Green Levies Removed', 'Now']
 })
