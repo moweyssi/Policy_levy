@@ -328,7 +328,7 @@ baseline = BaselineHPswitch(HomeUse_ele,
 
 if Scenario == "1. Move all levies completely off bills and onto general taxation":
     selected_scenario = scenario1
-    st.sidebar.text("Savings just from scenario is:" + scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage))
+    st.sidebar.text("Savings just from scenario is:" + str(scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage)))
 if Scenario == "2. Remove VAT from electricity bills only and don't touch levy costs":
     selected_scenario = scenario2
 if Scenario == "3. Introduce a clean heat discount":
