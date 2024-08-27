@@ -376,6 +376,7 @@ st.text(scenario1)
 st.text(scenario2)
 st.text(scenario3)
 st.text(scenario3a)
+st.text(baseline)
 
 
 if Scenario == "1. Move all levies completely off bills and onto general taxation":
