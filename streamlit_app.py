@@ -343,9 +343,9 @@ data = pd.DataFrame({
 # Main content
 st.title("Heat Pump Savings Comparison")
 if Before_Heating == "E7":
-    st.write("This chart shows the potential yearly savings from switching to a heat pump from **storage heaters** with and without the levies removed.")
+    st.write("This chart shows the potential yearly savings from switching to a heat pump from **storage heaters** before and after the scenario")
 if Before_Heating == "gas":
-    st.write("This chart shows the potential yearly savings from switching to a heat pump from a **gas boiler** with and without the levies removed.")
+    st.write("This chart shows the potential yearly savings from switching to a heat pump from a **gas boiler** before and after the scenario")
 
 # Find points where the lines meet the Y-axis at 0
 selected_scenario_zero = np.round(np.interp(0, selected_scenario, SPF),2)
