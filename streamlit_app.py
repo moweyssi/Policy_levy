@@ -344,7 +344,6 @@ scenario1 = scenario1HPswitch(HomeUse_ele,
                               gasStandingCharge=KeepStandingCharge,
                               perc_offpeak=OffPeak_percentage,
                               SPF=SPF)
-
 scenario2 = scenario2HPswitch(HomeUse_ele,
                               HomeUse_gas,
                               beforetype=Before_Heating,
@@ -373,6 +372,10 @@ baseline = BaselineHPswitch(HomeUse_ele,
                             beforetype=Before_Heating,
                             gasStandingCharge=KeepStandingCharge,
                             perc_offpeak=OffPeak_percentage)
+st.text(scenario1)
+st.text(scenario2)
+st.text(scenario3)
+st.text(scenario3a)
 
 
 if Scenario == "1. Move all levies completely off bills and onto general taxation":
