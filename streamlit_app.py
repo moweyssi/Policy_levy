@@ -299,13 +299,12 @@ def spf_to_percentage(spf_input):
 
 # Generate the Seasonal Performance Factor (SPF) data
 SPF = np.linspace(1, 4, 100)
-#st.set_page_config(layout="wide")
+st.set_page_config(layout="wide")
 # Sidebar: Heating type selection
 st.sidebar.header("Heating Options Before Switching to Heat Pump")
 Scenario = st.sidebar.selectbox("Which scenario?:", ("1. Move all levies completely off bills and onto general taxation",
                                                      "2. Remove VAT from electricity bills only and don't touch levy costs",
-                                                     "3. Introduce a flat clean heat discount",
-                                                     "3a. Introduce a clean heat discount for heat pumps"))
+                                                     "3. Introduce a clean heat discount"))
 
 Before_Heating = st.sidebar.selectbox("Select the heating type prior to getting a heat pump:", ("gas", "E7"))
 
@@ -328,12 +327,8 @@ else:
 if Scenario == "3. Introduce a clean heat discount":
     CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
 else:
-    CleanHeatDiscount = 1000000000
+    CleanHeatDiscount = 35000000
 
-if Scenario == "3a. Introduce a clean heat discount for heat pumps":
-    SPFCutoff = st.sidebar.number_input("What is the assumed SPF of the heat pump?", value=2.8)
-else:
-    SPFCutoff = 2.8
 # Sidebar: Gas standing charge option
 KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
 
@@ -344,6 +339,7 @@ scenario1 = scenario1HPswitch(HomeUse_ele,
                               gasStandingCharge=KeepStandingCharge,
                               perc_offpeak=OffPeak_percentage,
                               SPF=SPF)
+
 scenario2 = scenario2HPswitch(HomeUse_ele,
                               HomeUse_gas,
                               beforetype=Before_Heating,
@@ -358,13 +354,6 @@ scenario3 = scenario3HPswitch(HomeUse_ele,
                               SPF=SPF,
                               electricity_discount_kWh=CleanHeatDiscount)
 
-scenario3a = scenario3aHPswitch(HomeUse_ele,
-                                HomeUse_gas,
-                                beforetype=Before_Heating,
-                                gasStandingCharge=KeepStandingCharge,
-                                perc_offpeak=OffPeak_percentage,
-                                SPF=SPF,
-                                assumed_spf=SPFCutoff)
 
 baseline = BaselineHPswitch(HomeUse_ele,
                             HomeUse_gas,
@@ -375,47 +364,22 @@ baseline = BaselineHPswitch(HomeUse_ele,
 
 
 if Scenario == "1. Move all levies completely off bills and onto general taxation":
-    data = pd.DataFrame({
-    'SPF': SPF,
-    'scenario': scenario1,
-    'Now': baseline
-})
-
+    selected_scenario = scenario1
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
-
 if Scenario == "2. Remove VAT from electricity bills only and don't touch levy costs":
-    data = pd.DataFrame({
-    'SPF': SPF,
-    'scenario': scenario2,
-    'Now': baseline
-})
-
-    print(scenario2saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))
+    selected_scenario = scenario2
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario2saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
 
 if Scenario == "3. Introduce a clean heat discount":
-    data = pd.DataFrame({
-    'SPF': SPF,
-    'scenario': scenario3,
-    'Now': baseline
-})
-    st.text(data)
-
+    selected_scenario = scenario3
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario3saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
-    
-if Scenario == "3a. Introduce a clean heat discount for heat pumps":
-    data = pd.DataFrame({
+
+# Combine data into a DataFrame for plotting
+data = pd.DataFrame({
     'SPF': SPF,
-    'scenario': scenario3a,
+    'Green Levies Removed': selected_scenario,
     'Now': baseline
 })
-    st.text(data)
-
-
-    st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario3asaving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,assumed_spf=SPFCutoff))))
-else:
-    st.spinner()
-# Combine data into a DataFrame for plotting
 
 # Main content
 st.title("Heat Pump Savings Comparison")
@@ -433,7 +397,7 @@ zero_points = pd.DataFrame({
     'Break-Even SPF': [selected_scenario_zero, baseline_zero],
     'UK homes saving money' : [spf_to_percentage(selected_scenario_zero),spf_to_percentage(baseline_zero)],
     'Savings': [0, 0],
-    'Scenario': ['scenario', 'Now']
+    'Scenario': ['Green Levies Removed', 'Now']
 })
 
 # Create an Altair line chart
