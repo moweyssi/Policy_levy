@@ -375,7 +375,7 @@ baseline = BaselineHPswitch(HomeUse_ele,
 
 if Scenario == "1. Move all levies completely off bills and onto general taxation":
     selected_scenario = scenario1
-    st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
+    #st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
     # Combine data into a DataFrame for plotting
     data = pd.DataFrame({
     'SPF': SPF,
