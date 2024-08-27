@@ -373,13 +373,13 @@ baseline = BaselineHPswitch(HomeUse_ele,
                             perc_offpeak=OffPeak_percentage)
 
 
-if Scenario == "1. Move all levies completely off bills and onto general taxation":
-    selected_scenario = scenario1
-    st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
-
-if Scenario == "2. Remove VAT from electricity bills only and don't touch levy costs":
-    selected_scenario = scenario2
-    st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario2saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
+#if Scenario == "1. Move all levies completely off bills and onto general taxation":
+#    selected_scenario = scenario1
+#    st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
+#
+#if Scenario == "2. Remove VAT from electricity bills only and don't touch levy costs":
+#    selected_scenario = scenario2
+#    st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario2saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
 
 #if Scenario == "3. Introduce a clean heat discount":
 #    selected_scenario = scenario3
