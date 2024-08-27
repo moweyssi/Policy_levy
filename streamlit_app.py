@@ -170,7 +170,81 @@ def scenario1HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCh
             heatpump = getNoLevyBill(HomeUse_ele,HomeUse_gas,type="heatpump",SPF=SPF)
             return storageheater - heatpump
     
+NoVAT_ele_unit_price = EST_ele_unit_price_GBP/1.05 #remove VAT
+NoVAT_gas_unit_price = EST_gas_unit_price_GBP
 
+NoVAT_E7_peak_price = EST_E7_on_unit_price_GBP/1.05 #remove VAT
+NoVAT_E7_off_price = EST_E7_off_unit_price_GBP/1.05 #remove VAT
+
+def getNoVATBill(HomeUse_ele,HomeUse_gas,type="gas",perc_offpeak=0.9,SPF=2):
+    HeatDemand     = HomeUse_gas*EST_Gas_Boiler_Eff
+    if type=="gas":
+        return HomeUse_ele*NoVAT_ele_unit_price + EST_ele_standing_charge_GBP_yr + HomeUse_gas*NoVAT_gas_unit_price + EST_gas_standing_charge_GBP_yr
+    if type=="E7":
+        return (HomeUse_ele + (1-perc_offpeak)*HeatDemand)*NoVAT_E7_peak_price + perc_offpeak*HeatDemand*NoVAT_E7_off_price + EST_ele_standing_charge_GBP_yr
+    if type=="heatpump":
+        return (HomeUse_ele + HeatDemand/SPF)*NoVAT_ele_unit_price + EST_ele_standing_charge_GBP_yr
+    if type=="heatpump_gascook":
+        return (HomeUse_ele + HeatDemand/SPF)*NoVAT_ele_unit_price + EST_ele_standing_charge_GBP_yr + EST_gas_standing_charge_GBP_yr
+    else:
+        print("wrong type")
+
+def scenario2saving(HomeUse_ele,HomeUse_gas,type="gas",perc_offpeak=0.9,SPF=2):
+    saving = getBaselineBill(HomeUse_ele,HomeUse_gas,type=type,perc_offpeak=perc_offpeak,SPF=SPF) - getNoVATBill(HomeUse_ele,HomeUse_gas,type=type,perc_offpeak=perc_offpeak,SPF=SPF)
+    return saving
+def scenario2HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCharge=False,perc_offpeak=0.9):
+    if beforetype=="gas":
+        gasboiler = getNoVATBill(HomeUse_ele,HomeUse_gas,type=beforetype)
+        if gasStandingCharge==True:
+            heatpump = getNoVATBill(HomeUse_ele,HomeUse_gas,type="heatpump_gascook",SPF=SPF)
+            return gasboiler - heatpump
+        else:
+            heatpump = getNoVATBill(HomeUse_ele,HomeUse_gas,type="heatpump",SPF=SPF)
+            return gasboiler - heatpump
+        
+    if beforetype=="E7":
+        storageheater = getNoVATBill(HomeUse_ele,HomeUse_gas,type=beforetype,perc_offpeak=perc_offpeak)
+        if gasStandingCharge==True:
+            heatpump = getNoVATBill(HomeUse_ele,HomeUse_gas,type="heatpump_gascook",SPF=SPF)
+            return storageheater - heatpump
+        else:
+            heatpump = getNoVATBill(HomeUse_ele,HomeUse_gas,type="heatpump",SPF=SPF)
+            return storageheater - heatpump
+
+def getCleanHeatBill(HomeUse_ele,HomeUse_gas,type="gas",perc_offpeak=0.9,SPF=2,electricity_discount_kWh = 3500):
+    HeatDemand     = HomeUse_gas*EST_Gas_Boiler_Eff
+    if type=="gas":
+        return HomeUse_ele*EST_ele_unit_price_GBP + EST_ele_standing_charge_GBP_yr + HomeUse_gas*EST_gas_unit_price_GBP + EST_gas_standing_charge_GBP_yr
+    if type=="E7":
+        return (HomeUse_ele + (1-perc_offpeak)*HeatDemand)*EST_E7_on_unit_price_GBP + perc_offpeak*HeatDemand*EST_E7_off_unit_price_GBP + EST_ele_standing_charge_GBP_yr - electricity_discount_kWh*ele_levy_unit_rate_GBP_kWh_VATincl
+    if type=="heatpump":
+        return (HomeUse_ele + HeatDemand/SPF)*EST_ele_unit_price_GBP + EST_ele_standing_charge_GBP_yr- electricity_discount_kWh*ele_levy_unit_rate_GBP_kWh_VATincl
+    if type=="heatpump_gascook":
+        return (HomeUse_ele + HeatDemand/SPF)*EST_ele_unit_price_GBP + EST_ele_standing_charge_GBP_yr + EST_gas_standing_charge_GBP_yr- electricity_discount_kWh*ele_levy_unit_rate_GBP_kWh_VATincl
+    else:
+        print("wrong type")
+
+def scenario3saving(HomeUse_ele,HomeUse_gas,type="gas",perc_offpeak=0.9,SPF=2,electricity_discount_kWh = 3500):
+    saving = getBaselineBill(HomeUse_ele,HomeUse_gas,type=type,perc_offpeak=perc_offpeak,SPF=SPF) - getCleanHeatBill(HomeUse_ele,HomeUse_gas,type=type,perc_offpeak=perc_offpeak,SPF=SPF,electricity_discount_kWh=electricity_discount_kWh)
+    return saving
+def scenario3HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCharge=False,perc_offpeak=0.9,electricity_discount_kWh=3500):
+    if beforetype=="gas":
+        gasboiler = getCleanHeatBill(HomeUse_ele,HomeUse_gas,type=beforetype,electricity_discount_kWh=electricity_discount_kWh)
+        if gasStandingCharge==True:
+            heatpump = getCleanHeatBill(HomeUse_ele,HomeUse_gas,type="heatpump_gascook",SPF=SPF,electricity_discount_kWh=electricity_discount_kWh)
+            return gasboiler - heatpump
+        else:
+            heatpump = getCleanHeatBill(HomeUse_ele,HomeUse_gas,type="heatpump",SPF=SPF,electricity_discount_kWh=electricity_discount_kWh)
+            return gasboiler - heatpump
+        
+    if beforetype=="E7":
+        storageheater = getCleanHeatBill(HomeUse_ele,HomeUse_gas,type=beforetype,perc_offpeak=perc_offpeak,electricity_discount_kWh=electricity_discount_kWh)
+        if gasStandingCharge==True:
+            heatpump = getCleanHeatBill(HomeUse_ele,HomeUse_gas,type="heatpump_gascook",SPF=SPF,electricity_discount_kWh=electricity_discount_kWh)
+            return storageheater - heatpump
+        else:
+            heatpump = getCleanHeatBill(HomeUse_ele,HomeUse_gas,type="heatpump",SPF=SPF,electricity_discount_kWh=electricity_discount_kWh)
+            return storageheater - heatpump
 
 # Generate the Seasonal Performance Factor (SPF) data
 SPF = np.linspace(1, 4, 100)
@@ -194,7 +268,15 @@ if Before_Heating == "E7":
     OffPeak_percentage = st.sidebar.number_input("Percentage of heating energy used during off-peak:", value=90) / 100
 else:
     OffPeak_percentage = 0.9
+Scenario = st.sidebar.selectbox("Which scenario?:", ("1. Move all levies completely off bills and onto general taxation",
+                                                     "2. Remove VAT from electricity bills only and don't touch levy costs",
+                                                     "3. Introduce a clean heat discount"))
 
+if Scenario == "3. Introduce a clean heat discount":
+    CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
+else:
+    CleanHeatDiscount = 35000000
+    
 # Sidebar: Gas standing charge option
 KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
 
@@ -206,12 +288,31 @@ scenario1 = scenario1HPswitch(HomeUse_ele,
                               perc_offpeak=OffPeak_percentage,
                               SPF=SPF)
 
+scenario2 = scenario2HPswitch(HomeUse_ele,
+                              HomeUse_gas,
+                              beforetype=Before_Heating,
+                              gasStandingCharge=KeepStandingCharge,
+                              perc_offpeak=OffPeak_percentage,
+                              SPF=SPF)
+scenario3 = scenario3HPswitch(HomeUse_ele,
+                              HomeUse_gas,
+                              beforetype=Before_Heating,
+                              gasStandingCharge=KeepStandingCharge,
+                              perc_offpeak=OffPeak_percentage,
+                              SPF=SPF
+                              electricity_discount_kWh=CleanHeatDiscount)
+
+def scenario3HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCharge=False,perc_offpeak=0.9,electricity_discount_kWh=3500):
+
 baseline = BaselineHPswitch(HomeUse_ele,
                             HomeUse_gas,
                             SPF=SPF,
                             beforetype=Before_Heating,
                             gasStandingCharge=KeepStandingCharge,
                             perc_offpeak=OffPeak_percentage)
+
+
+
 
 # Combine data into a DataFrame for plotting
 data = pd.DataFrame({
