@@ -328,7 +328,8 @@ else:
 if Scenario == "3. Introduce a clean heat discount":
     CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
 else:
-    CleanHeatDiscount = 1
+    CleanHeatDiscount = 100
+
 if Scenario == "3a. Introduce a clean heat discount for heat pumps":
     SPFCutoff = st.sidebar.number_input("What is the assumed SPF of the heat pump?", value=2.8)
 else:
