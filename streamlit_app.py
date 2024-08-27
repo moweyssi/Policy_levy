@@ -357,13 +357,14 @@ scenario3 = scenario3HPswitch(HomeUse_ele,
                               perc_offpeak=OffPeak_percentage,
                               SPF=SPF,
                               electricity_discount_kWh=CleanHeatDiscount)
+
 scenario3a = scenario3aHPswitch(HomeUse_ele,
-                              HomeUse_gas,
-                              beforetype=Before_Heating,
-                              gasStandingCharge=KeepStandingCharge,
-                              perc_offpeak=OffPeak_percentage,
-                              SPF=SPF,
-                              assumed_spf=SPFCutoff)
+                                HomeUse_gas,
+                                beforetype=Before_Heating,
+                                gasStandingCharge=KeepStandingCharge,
+                                perc_offpeak=OffPeak_percentage,
+                                SPF=SPF,
+                                assumed_spf=SPFCutoff)
 
 baseline = BaselineHPswitch(HomeUse_ele,
                             HomeUse_gas,
@@ -392,7 +393,7 @@ if Scenario == "3a. Introduce a clean heat discount for heat pumps":
 # Combine data into a DataFrame for plotting
 data = pd.DataFrame({
     'SPF': SPF,
-    'scenario': selected_scenario,
+    'scenario': scenario1,#selected_scenario,
     'Now': baseline
 })
 
