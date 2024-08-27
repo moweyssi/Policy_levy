@@ -375,20 +375,18 @@ baseline = BaselineHPswitch(HomeUse_ele,
 
 
 if Scenario == "1. Move all levies completely off bills and onto general taxation":
-    selected_scenario = scenario1
     data = pd.DataFrame({
     'SPF': SPF,
-    'scenario': selected_scenario,
+    'scenario': scenario1,
     'Now': baseline
 })
 
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario1saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
 
 if Scenario == "2. Remove VAT from electricity bills only and don't touch levy costs":
-    selected_scenario = scenario2
     data = pd.DataFrame({
     'SPF': SPF,
-    'scenario': selected_scenario,
+    'scenario': scenario2,
     'Now': baseline
 })
 
@@ -396,20 +394,18 @@ if Scenario == "2. Remove VAT from electricity bills only and don't touch levy c
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario2saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
 
 if Scenario == "3. Introduce a clean heat discount":
-    selected_scenario = scenario3
     data = pd.DataFrame({
     'SPF': SPF,
-    'scenario': selected_scenario,
+    'scenario': scenario3,
     'Now': baseline
 })
 
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario3saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
     
 if Scenario == "3a. Introduce a clean heat discount for heat pumps":
-    selected_scenario = scenario3a
     data = pd.DataFrame({
     'SPF': SPF,
-    'scenario': selected_scenario,
+    'scenario': scenario3a,
     'Now': baseline
 })
 
