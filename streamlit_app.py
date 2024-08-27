@@ -325,7 +325,7 @@ if Before_Heating == "E7":
 else:
     OffPeak_percentage = 0.9
 
-if Scenario == "3. Introduce a clean heat discount":
+if Scenario == "3. Introduce a flat clean heat discount":
     CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
 else:
     CleanHeatDiscount = 1000000000
