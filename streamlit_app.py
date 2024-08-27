@@ -266,7 +266,11 @@ SPF = np.linspace(1, 4, 100)
 st.set_page_config(layout="wide")
 # Sidebar: Heating type selection
 st.sidebar.header("Heating Options Before Switching to Heat Pump")
-Before_Heating = st.sidebar.selectbox("Select the current heating type:", ("gas", "E7"))
+Scenario = st.sidebar.selectbox("Which scenario?:", ("1. Move all levies completely off bills and onto general taxation",
+                                                     "2. Remove VAT from electricity bills only and don't touch levy costs",
+                                                     "3. Introduce a clean heat discount"))
+
+Before_Heating = st.sidebar.selectbox("Select the heating type prior to getting a heat pump:", ("gas", "E7"))
 
 energyuse = st.sidebar.selectbox("How high is the energy use?",("Low","Typical","High"))
 if energyuse=="Low":
@@ -283,9 +287,6 @@ if Before_Heating == "E7":
     OffPeak_percentage = st.sidebar.number_input("Percentage of heating energy used during off-peak:", value=90) / 100
 else:
     OffPeak_percentage = 0.9
-Scenario = st.sidebar.selectbox("Which scenario?:", ("1. Move all levies completely off bills and onto general taxation",
-                                                     "2. Remove VAT from electricity bills only and don't touch levy costs",
-                                                     "3. Introduce a clean heat discount"))
 
 if Scenario == "3. Introduce a clean heat discount":
     CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
