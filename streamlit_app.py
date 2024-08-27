@@ -332,7 +332,7 @@ else:
 if Scenario == "3a. Introduce a clean heat discount for heat pumps":
     SPFCutoff = st.sidebar.number_input("What is the assumed SPF of the heat pump?", value=2.8)
 else:
-    SPFCutoff = 100
+    SPFCutoff = 2.8
 # Sidebar: Gas standing charge option
 KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
 
@@ -391,6 +391,7 @@ if Scenario == "3a. Introduce a clean heat discount for heat pumps":
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario3asaving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,assumed_spf=SPFCutoff))))
 else:
     st.spinner()
+
 # Combine data into a DataFrame for plotting
 data = pd.DataFrame({
     'SPF': SPF,
