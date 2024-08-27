@@ -276,7 +276,7 @@ if Scenario == "3. Introduce a clean heat discount":
     CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
 else:
     CleanHeatDiscount = 35000000
-    
+
 # Sidebar: Gas standing charge option
 KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
 
@@ -301,8 +301,6 @@ scenario3 = scenario3HPswitch(HomeUse_ele,
                               perc_offpeak=OffPeak_percentage,
                               SPF=SPF
                               electricity_discount_kWh=CleanHeatDiscount)
-
-def scenario3HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCharge=False,perc_offpeak=0.9,electricity_discount_kWh=3500):
 
 baseline = BaselineHPswitch(HomeUse_ele,
                             HomeUse_gas,
