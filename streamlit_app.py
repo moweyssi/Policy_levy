@@ -356,15 +356,25 @@ chart = alt.Chart(data.melt('SPF', var_name='Scenario', value_name='Savings')).m
 points = alt.Chart(zero_points).mark_point(size=100, filled=True).encode(
     x='Break-Even SPF',
     y='Savings',
-    color='Scenario:N'
+    color='Scenario:N',
+    tooltip=[
+        alt.Tooltip('Scenario', title='Scenario'),
+        alt.Tooltip('Break-Even SPF', title='Break-Even SPF'),
+        alt.Tooltip('Savings', title='Savings (£)')
+    ]
 )
 
-# Combine the line chart and points
-final_chart = chart + points
+# Add line segment connecting the two zero points
+line_segment = alt.Chart(zero_points).mark_line(color='red').encode(
+    x='Break-Even SPF',
+    y='Savings'
+)
+
+# Combine the line chart, points, and line segment
+final_chart = chart + points + line_segment
 
 # Display the chart in Streamlit
 st.altair_chart(final_chart, use_container_width=True)
-
 # Additional explanations
 st.write("**SPF** stands for Seasonal Performance Factor, representing the efficiency of the heat pump. "
          "A higher SPF indicates a more efficient heat pump. The Y-axis shows the savings in energy costs "
