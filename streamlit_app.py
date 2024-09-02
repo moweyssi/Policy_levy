@@ -64,10 +64,21 @@ gas_levy_unit_rate_GBP_kWh_VATincl = gas_levy_unit_rate_GBP_kWh + VAT_gas_GBP/ga
 
 
 EST_ele_unit_price_GBP = 0.22360
+EST_gas_unit_price_GBP = 0.05480
 EST_E7_off_unit_price_GBP = 0.13047
 EST_E7_on_unit_price_GBP = 0.26687
 
-EST_gas_unit_price_GBP = 0.05480
+
+NoLevy_ele_unit_price = EST_ele_unit_price_GBP-ele_levy_unit_rate_GBP_kWh_VATincl
+NoLevy_gas_unit_price = EST_gas_unit_price_GBP-gas_levy_unit_rate_GBP_kWh_VATincl
+NoLevy_E7_peak_price = EST_E7_on_unit_price_GBP - ele_levy_unit_rate_GBP_kWh_VATincl
+NoLevy_E7_off_price = EST_E7_off_unit_price_GBP - ele_levy_unit_rate_GBP_kWh_VATincl
+
+NoVAT_ele_unit_price = EST_ele_unit_price_GBP/1.05 #remove VAT
+NoVAT_gas_unit_price = EST_gas_unit_price_GBP
+NoVAT_E7_peak_price = EST_E7_on_unit_price_GBP/1.05 #remove VAT
+NoVAT_E7_off_price = EST_E7_off_unit_price_GBP/1.05 #remove VAT
+
 EST_ele_standing_charge_GBP_yr = 219.44
 EST_gas_standing_charge_GBP_yr = 114.65
 EST_Gas_Boiler_Eff = 0.778
@@ -84,6 +95,44 @@ HighHomeUse_gas = 17000
 TypicalHeatDemand = TypicalHomeUse_gas*EST_Gas_Boiler_Eff
 LowHeatDemand     = LowHomeUse_gas*EST_Gas_Boiler_Eff
 HighHeatDemand    = HighHomeUse_gas*EST_Gas_Boiler_Eff
+
+#st.set_page_config(layout="wide")
+# Sidebar: Heating type selection
+st.sidebar.header("Heating Options Before Switching to Heat Pump")
+Scenario = st.sidebar.selectbox("Which scenario?:", ("1. Move all levies completely off bills and onto general taxation",
+                                                     "2. Remove VAT from electricity bills only and don't touch levy costs",
+                                                     "3. Introduce a flat clean heat discount",
+                                                     "3a. Introduce a clean heat discount for heat pumps"))
+
+Before_Heating = st.sidebar.selectbox("Select the heating type prior to getting a heat pump:", ("gas", "E7"))
+
+energyuse = st.sidebar.selectbox("How high is the energy use?",("Low","Typical","High"))
+if energyuse=="Low":
+    HomeUse_ele = LowHomeUse_ele
+    HomeUse_gas = LowHomeUse_gas
+if energyuse=="High":
+    HomeUse_ele = HighHomeUse_ele
+    HomeUse_gas = HighHomeUse_gas
+if energyuse=="Typical":
+    HomeUse_ele = TypicalHomeUse_ele
+    HomeUse_gas = TypicalHomeUse_gas
+# Sidebar: Off-peak percentage input
+if Before_Heating == "E7":
+    OffPeak_percentage = st.sidebar.number_input("Percentage of heating energy used during off-peak:", value=90) / 100
+else:
+    OffPeak_percentage = 0.9
+
+if Scenario == "3. Introduce a flat clean heat discount":
+    CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
+else:
+    CleanHeatDiscount = 1000000000
+
+if Scenario == "3a. Introduce a clean heat discount for heat pumps":
+    SPFCutoff = st.sidebar.number_input("What is the assumed SPF of the heat pump?", value=2.8)
+else:
+    SPFCutoff = 2.8
+
+
 
 def getBaselineBill(HomeUse_ele,HomeUse_gas,type="gas",perc_offpeak=0.9,SPF=2):
     HeatDemand     = HomeUse_gas*EST_Gas_Boiler_Eff
@@ -117,23 +166,6 @@ def BaselineHPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCha
             heatpump = getBaselineBill(HomeUse_ele,HomeUse_gas,type="heatpump",SPF=SPF)
             return storageheater - heatpump
     
-
-BaselineLowBill_gashome     = getBaselineBill(LowHomeUse_ele,LowHomeUse_gas,type="gas")
-BaselineTypicalBill_gashome = getBaselineBill(TypicalHomeUse_ele,TypicalHomeUse_gas,type="gas")
-BaselineHighBill_gashome    = getBaselineBill(HighHomeUse_ele,HighHomeUse_gas,type="gas")
-
-#E7 no gas SC, X percent of heating is off peak
-off_peak_heating = 0.9
-BaselineLowBill_E7     = getBaselineBill(LowHomeUse_ele,LowHomeUse_gas,type="E7",perc_offpeak=off_peak_heating)
-BaselineTypicalBill_E7 = getBaselineBill(TypicalHomeUse_ele,TypicalHomeUse_gas,type="E7",perc_offpeak=off_peak_heating)
-BaselineHighBill_E7    = getBaselineBill(HighHomeUse_ele,HighHomeUse_gas,type="E7",perc_offpeak=off_peak_heating)
-
-
-NoLevy_ele_unit_price = EST_ele_unit_price_GBP-ele_levy_unit_rate_GBP_kWh_VATincl
-NoLevy_gas_unit_price = EST_gas_unit_price_GBP-gas_levy_unit_rate_GBP_kWh_VATincl
-
-NoLevy_E7_peak_price = EST_E7_on_unit_price_GBP - ele_levy_unit_rate_GBP_kWh_VATincl
-NoLevy_E7_off_price = EST_E7_off_unit_price_GBP - ele_levy_unit_rate_GBP_kWh_VATincl
 
 def getNoLevyBill(HomeUse_ele,HomeUse_gas,type="gas",perc_offpeak=0.9,SPF=2):
     HeatDemand     = HomeUse_gas*EST_Gas_Boiler_Eff
@@ -169,12 +201,6 @@ def scenario1HPswitch(HomeUse_ele,HomeUse_gas,SPF,beforetype="gas",gasStandingCh
         else:
             heatpump = getNoLevyBill(HomeUse_ele,HomeUse_gas,type="heatpump",SPF=SPF)
             return storageheater - heatpump
-    
-NoVAT_ele_unit_price = EST_ele_unit_price_GBP/1.05 #remove VAT
-NoVAT_gas_unit_price = EST_gas_unit_price_GBP
-
-NoVAT_E7_peak_price = EST_E7_on_unit_price_GBP/1.05 #remove VAT
-NoVAT_E7_off_price = EST_E7_off_unit_price_GBP/1.05 #remove VAT
 
 def getNoVATBill(HomeUse_ele,HomeUse_gas,type="gas",perc_offpeak=0.9,SPF=2):
     HeatDemand     = HomeUse_gas*EST_Gas_Boiler_Eff
@@ -299,41 +325,7 @@ def spf_to_percentage(spf_input):
 
 # Generate the Seasonal Performance Factor (SPF) data
 SPF = np.linspace(1, 4, 100)
-#st.set_page_config(layout="wide")
-# Sidebar: Heating type selection
-st.sidebar.header("Heating Options Before Switching to Heat Pump")
-Scenario = st.sidebar.selectbox("Which scenario?:", ("1. Move all levies completely off bills and onto general taxation",
-                                                     "2. Remove VAT from electricity bills only and don't touch levy costs",
-                                                     "3. Introduce a flat clean heat discount",
-                                                     "3a. Introduce a clean heat discount for heat pumps"))
 
-Before_Heating = st.sidebar.selectbox("Select the heating type prior to getting a heat pump:", ("gas", "E7"))
-
-energyuse = st.sidebar.selectbox("How high is the energy use?",("Low","Typical","High"))
-if energyuse=="Low":
-    HomeUse_ele = LowHomeUse_ele
-    HomeUse_gas = LowHomeUse_gas
-if energyuse=="High":
-    HomeUse_ele = HighHomeUse_ele
-    HomeUse_gas = HighHomeUse_gas
-if energyuse=="Typical":
-    HomeUse_ele = TypicalHomeUse_ele
-    HomeUse_gas = TypicalHomeUse_gas
-# Sidebar: Off-peak percentage input
-if Before_Heating == "E7":
-    OffPeak_percentage = st.sidebar.number_input("Percentage of heating energy used during off-peak:", value=90) / 100
-else:
-    OffPeak_percentage = 0.9
-
-if Scenario == "3. Introduce a flat clean heat discount":
-    CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
-else:
-    CleanHeatDiscount = 1000000000
-
-if Scenario == "3a. Introduce a clean heat discount for heat pumps":
-    SPFCutoff = st.sidebar.number_input("What is the assumed SPF of the heat pump?", value=2.8)
-else:
-    SPFCutoff = 2.8
 # Sidebar: Gas standing charge option
 KeepStandingCharge = st.sidebar.checkbox("Keep the gas standing charge (for cooking)?", value=False)
 
