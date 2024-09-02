@@ -115,11 +115,11 @@ EST_ele_standing_charge_GBP_yr = 219.44
 EST_gas_standing_charge_GBP_yr = 114.65
 EST_Gas_Boiler_Eff = 0.778
 
-st.sidebar.text("Default unit prices are based on EST research")
-EST_ele_unit_price_GBP      = st.sidebar.number_input("Electricity unit price in p/kWh",value=22.360)/100
-EST_gas_unit_price_GBP      = st.sidebar.number_input("Gas unit price in p/kWh",value=5.480)/100
-EST_E7_off_unit_price_GBP   = st.sidebar.number_input("E7 off-peak unit price in p/kWh",value=13.047)/100
-EST_E7_on_unit_price_GBP    = st.sidebar.number_input("E7 on-peak unit price in p/kWh",value=26.687)/100
+st.sidebar.text("Default prices based on EST research")
+EST_ele_unit_price_GBP      = st.sidebar.number_input("Electricity unit price [p/kWh]",value=22.360)/100
+EST_gas_unit_price_GBP      = st.sidebar.number_input("Gas unit price [p/kWh]"        ,value=5.480)/100
+EST_E7_off_unit_price_GBP   = st.sidebar.number_input("E7 off-peak unit price [p/kWh]",value=13.047)/100
+EST_E7_on_unit_price_GBP    = st.sidebar.number_input("E7 on-peak unit price [p/kWh]" ,value=26.687)/100
 
 
 NoLevy_ele_unit_price = EST_ele_unit_price_GBP-ele_levy_unit_rate_GBP_kWh_VATincl
