@@ -12,6 +12,14 @@ StandingCharge_gas_yr_GBP = gas_pricecap_day_GBP * 365
 kWh_price_ele_GBP = 0.2450 #including VAT
 kWh_price_gas_GBP = 0.0604 #including VAT
 
+TypicalHomeUse_ele = 2700
+LowHomeUse_ele = 1800
+HighHomeUse_ele = 4100
+
+TypicalHomeUse_gas = 11500
+LowHomeUse_gas = 7500
+HighHomeUse_gas = 17000
+
 #https://eciu.net/insights/2024/are-green-levies-going-up-in-april-2024
 
 PriceCapBill_ele_GBP = 839
@@ -63,38 +71,8 @@ ele_levy_unit_rate_GBP_kWh_VATincl = ele_levy_unit_rate_GBP_kWh + VAT_ele_GBP/el
 gas_levy_unit_rate_GBP_kWh_VATincl = gas_levy_unit_rate_GBP_kWh + VAT_gas_GBP/gas_levies_per_kWh
 
 
-EST_ele_unit_price_GBP = 0.22360
-EST_gas_unit_price_GBP = 0.05480
-EST_E7_off_unit_price_GBP = 0.13047
-EST_E7_on_unit_price_GBP = 0.26687
 
 
-NoLevy_ele_unit_price = EST_ele_unit_price_GBP-ele_levy_unit_rate_GBP_kWh_VATincl
-NoLevy_gas_unit_price = EST_gas_unit_price_GBP-gas_levy_unit_rate_GBP_kWh_VATincl
-NoLevy_E7_peak_price = EST_E7_on_unit_price_GBP - ele_levy_unit_rate_GBP_kWh_VATincl
-NoLevy_E7_off_price = EST_E7_off_unit_price_GBP - ele_levy_unit_rate_GBP_kWh_VATincl
-
-NoVAT_ele_unit_price = EST_ele_unit_price_GBP/1.05 #remove VAT
-NoVAT_gas_unit_price = EST_gas_unit_price_GBP
-NoVAT_E7_peak_price = EST_E7_on_unit_price_GBP/1.05 #remove VAT
-NoVAT_E7_off_price = EST_E7_off_unit_price_GBP/1.05 #remove VAT
-
-EST_ele_standing_charge_GBP_yr = 219.44
-EST_gas_standing_charge_GBP_yr = 114.65
-EST_Gas_Boiler_Eff = 0.778
-
-
-TypicalHomeUse_ele = 2700
-LowHomeUse_ele = 1800
-HighHomeUse_ele = 4100
-
-TypicalHomeUse_gas = 11500
-LowHomeUse_gas = 7500
-HighHomeUse_gas = 17000
-
-TypicalHeatDemand = TypicalHomeUse_gas*EST_Gas_Boiler_Eff
-LowHeatDemand     = LowHomeUse_gas*EST_Gas_Boiler_Eff
-HighHeatDemand    = HighHomeUse_gas*EST_Gas_Boiler_Eff
 
 #st.set_page_config(layout="wide")
 # Sidebar: Heating type selection
@@ -131,6 +109,28 @@ if Scenario == "3a. Introduce a clean heat discount for heat pumps":
     SPFCutoff = st.sidebar.number_input("What is the assumed SPF of the heat pump?", value=2.8)
 else:
     SPFCutoff = 2.8
+
+
+EST_ele_standing_charge_GBP_yr = 219.44
+EST_gas_standing_charge_GBP_yr = 114.65
+EST_Gas_Boiler_Eff = 0.778
+
+st.sidebar.text("Default unit prices are based on EST research")
+EST_ele_unit_price_GBP      = st.sidebar.number_input("Electricity unit price in p/kWh",value=22.360)/100
+EST_gas_unit_price_GBP      = st.sidebar.number_input("Gas unit price in p/kWh",value=5.480)/100
+EST_E7_off_unit_price_GBP   = st.sidebar.number_input("E7 off-peak unit price in p/kWh",value=13.047)/100
+EST_E7_on_unit_price_GBP    = st.sidebar.number_input("E7 on-peak unit price in p/kWh",value=26.687)/100
+
+
+NoLevy_ele_unit_price = EST_ele_unit_price_GBP-ele_levy_unit_rate_GBP_kWh_VATincl
+NoLevy_gas_unit_price = EST_gas_unit_price_GBP-gas_levy_unit_rate_GBP_kWh_VATincl
+NoLevy_E7_peak_price = EST_E7_on_unit_price_GBP - ele_levy_unit_rate_GBP_kWh_VATincl
+NoLevy_E7_off_price = EST_E7_off_unit_price_GBP - ele_levy_unit_rate_GBP_kWh_VATincl
+
+NoVAT_ele_unit_price = EST_ele_unit_price_GBP/1.05 #remove VAT
+NoVAT_gas_unit_price = EST_gas_unit_price_GBP
+NoVAT_E7_peak_price = EST_E7_on_unit_price_GBP/1.05 #remove VAT
+NoVAT_E7_off_price = EST_E7_off_unit_price_GBP/1.05 #remove VAT
 
 
 
