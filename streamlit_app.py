@@ -444,6 +444,7 @@ scenario4 = scenario4HPswitch(HomeUse_ele,
                               perc_offpeak=OffPeak_percentage,
                               SPF=SPF,
                               electricity_discount_kWh=CleanHeatDiscount)
+st.text(scenario4)
 
 scenario4a = scenario4aHPswitch(HomeUse_ele,
                                 HomeUse_gas,
@@ -483,7 +484,6 @@ if Scenario == "4. Introduce a flat clean heat discount + removing VAT from the 
 if Scenario == "4a. Introduce a clean heat discount for heat pumps + removing VAT from the discounted electricity":
     selected_scenario = scenario4a
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario4asaving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,assumed_spf=SPFCutoff))))
-
 
 else:
     st.spinner()
