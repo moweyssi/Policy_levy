@@ -102,12 +102,12 @@ if Before_Heating == "E7":
 else:
     OffPeak_percentage = 0.9
 
-if Scenario == "3. Introduce a flat clean heat discount":
+if Scenario == "3. Introduce a flat clean heat discount"|Scenario == "4. Introduce a flat clean heat discount + removing VAT from the discounted electricity":
     CleanHeatDiscount = st.sidebar.number_input("What is the assumed heating load of electric homes?", value=3500)
 else:
     CleanHeatDiscount = 1000000000
 
-if Scenario == "3a. Introduce a clean heat discount for heat pumps":
+if Scenario == "3a. Introduce a clean heat discount for heat pumps"|Scenario == "4a. Introduce a clean heat discount for heat pumps + removing VAT from the discounted electricity":
     SPFCutoff = st.sidebar.number_input("What is the assumed SPF of the heat pump?", value=2.8)
 else:
     SPFCutoff = 2.8
