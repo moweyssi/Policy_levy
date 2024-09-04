@@ -481,7 +481,7 @@ if Scenario == "4. Introduce a flat clean heat discount + removing VAT from the 
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario4saving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,electricity_discount_kWh=CleanHeatDiscount))))
     
 if Scenario == "4a. Introduce a clean heat discount for heat pumps + removing VAT from the discounted electricity":
-    selected_scenario = scenario3a
+    selected_scenario = scenario4a
     st.sidebar.text("Yearly savings just from scenario are £" + str(round(scenario4asaving(HomeUse_ele,HomeUse_gas,type=Before_Heating,perc_offpeak=OffPeak_percentage,assumed_spf=SPFCutoff))))
 
 
