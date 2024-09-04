@@ -448,10 +448,7 @@ scenario4 = scenario4HPswitch(HomeUse_ele,
                               perc_offpeak=OffPeak_percentage,
                               SPF=SPF,
                               electricity_discount_kWh=CleanHeatDiscount)
-st.text(scenario4)
-st.text(HomeUse_ele)
-st.text(HomeUse_gas)
-st.text(CleanHeatDiscount)
+
 scenario4a = scenario4aHPswitch(HomeUse_ele,
                                 HomeUse_gas,
                                 beforetype=Before_Heating,
