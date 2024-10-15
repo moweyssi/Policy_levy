@@ -10,7 +10,7 @@ gas_pricecap_day_GBP = 0.3166
 StandingCharge_ele_yr_GBP = ele_pricecap_day_GBP * 365
 StandingCharge_gas_yr_GBP = gas_pricecap_day_GBP * 365
 kWh_price_ele_GBP = 0.2450 #including VAT
-kWh_price_gas_GBP = 0.0604 #including VAT
+kWh_price_gas_GBP = 0.0624 #including VAT
 
 TypicalHomeUse_ele = 2700
 LowHomeUse_ele = 1800
@@ -48,6 +48,11 @@ GGL_gas_GBP = 0.4
 #VAT on levies
 VAT_ele_GBP = 7
 VAT_gas_GBP = 2
+
+#EST assumed values
+EST_ele_standing_charge_GBP_yr = 222.61
+EST_gas_standing_charge_GBP_yr = 115.56
+EST_Gas_Boiler_Eff = 0.778
 
 yearly_levy_ele_GBP = RO_ele_GBP + FIT_ele_GBP + ECO_ele_GBP + WHD_ele_GBP + AAHEDC_ele_GBP + GGL_ele_GBP
 yearly_levy_gas_GBP = RO_gas_GBP + FIT_gas_GBP + ECO_gas_GBP + WHD_gas_GBP + AAHEDC_gas_GBP + GGL_gas_GBP
@@ -117,15 +122,13 @@ else:
     SPFCutoff = 2.8
 
 
-EST_ele_standing_charge_GBP_yr = 219.44
-EST_gas_standing_charge_GBP_yr = 114.65
-EST_Gas_Boiler_Eff = 0.778
+
 
 st.sidebar.text("Default prices based on EST research")
-EST_ele_unit_price_GBP      = st.sidebar.number_input("Electricity unit price [p/kWh]",value=22.360)/100
-EST_gas_unit_price_GBP      = st.sidebar.number_input("Gas unit price [p/kWh]"        ,value=5.480)/100
-EST_E7_off_unit_price_GBP   = st.sidebar.number_input("E7 off-peak unit price [p/kWh]",value=13.047)/100
-EST_E7_on_unit_price_GBP    = st.sidebar.number_input("E7 on-peak unit price [p/kWh]" ,value=26.687)/100
+EST_ele_unit_price_GBP      = st.sidebar.number_input("Electricity unit price [p/kWh]",value=24.5)/100
+EST_gas_unit_price_GBP      = st.sidebar.number_input("Gas unit price [p/kWh]"        ,value=6.24)/100
+EST_E7_off_unit_price_GBP   = st.sidebar.number_input("E7 off-peak unit price [p/kWh]",value=14.494)/100
+EST_E7_on_unit_price_GBP    = st.sidebar.number_input("E7 on-peak unit price [p/kWh]" ,value=29.647)/100
 
 
 NoLevy_ele_unit_price = EST_ele_unit_price_GBP-ele_levy_unit_rate_GBP_kWh_VATincl
