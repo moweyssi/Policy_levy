@@ -6,7 +6,7 @@ st.set_page_config(
     page_title="EST Levy Rebalancing",
     page_icon="favicon.png"
 )
-st.logo('logo.svg')
+st.logo('logo.svg',size='large')
 
 #https://www.ofgem.gov.uk/energy-price-cap
 ele_pricecap_day_GBP = 0.6099
