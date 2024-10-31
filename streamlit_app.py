@@ -2,7 +2,11 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import altair as alt
-
+st.set_page_config(
+    page_title="EST Levy Rebalancing",
+    page_icon="favicon.png"
+)
+st.logo('logo.svg')
 
 #https://www.ofgem.gov.uk/energy-price-cap
 ele_pricecap_day_GBP = 0.6099
